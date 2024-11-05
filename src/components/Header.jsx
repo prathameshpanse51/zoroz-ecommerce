@@ -1,8 +1,48 @@
 // components/Header.js
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Header = ({ cart }) => {
+const Header = ({ cart, products }) => {
+  const [search, setSearch] = useState("");
+
+  const handleSearch = (val) => {
+    setSearch(val);
+    const searchBox = document.getElementById("search-box");
+    searchBox.innerHTML = "";
+
+    const filtered = products.filter((e) => {
+      return e.title.toLowerCase().includes(val.toLowerCase());
+    });
+
+    filtered.forEach((e) => {
+      const link = document.createElement("a");
+      link.href = `/product/${e.id}`;
+      link.className = "search-res";
+
+      const svgContainer = document.createElement("span");
+      svgContainer.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16">
+          <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+        </svg>
+      `;
+
+      link.appendChild(svgContainer);
+      link.appendChild(document.createTextNode(` ${e.title}`));
+
+      searchBox.style.maxHeight = "300px";
+      searchBox.style.overflow = "scroll";
+      searchBox.appendChild(link);
+    });
+
+    if (filtered.length === 0) {
+      searchBox.innerHTML = "<p class='search-no'>No Product Found!</p>";
+    }
+
+    if (val === "") {
+      searchBox.style.maxHeight = "0px";
+    }
+  };
+
   const total = cart.reduce(
     (acc, product) => acc + product.price * product.quantity,
     0
@@ -20,6 +60,9 @@ const Header = ({ cart }) => {
           type="text"
           placeholder="Search products"
           className="p-2 rounded w-1/4 mr-4"
+          name="search"
+          value={search}
+          onChange={(e) => handleSearch(e.target.value)}
         />
         <div className="flex-none">
           <div className="dropdown dropdown-end">
@@ -84,6 +127,7 @@ const Header = ({ cart }) => {
           </div>
         </div>
       </div>
+      <div className="search-box" id="search-box"></div>
     </>
   );
 };

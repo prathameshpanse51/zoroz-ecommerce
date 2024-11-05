@@ -13,3 +13,59 @@ html {
   white-space: normal;
   width: 150px;
 }
+
+.search-box {
+  display: block;
+  background-color: white;
+  color: black;
+  text-align: left;
+  z-index: 99;
+  position: absolute;
+  right: 132px;
+  margin-top: -10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 380px !important;
+  /* height: 300px; */
+  /* overflow: scroll; */
+}
+
+.search-res {
+  text-decoration: none;
+  color: black;
+  padding: 15px;
+  margin: 0px;
+  display: block;
+  margin: 0px auto;
+  width: 90%;
+  border-radius: 12px;
+  font-family: "Lato", sans-serif;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+}
+.search-no {
+  color: black;
+  padding: 15px;
+  padding-left: 22px;
+  display: block;
+  margin: 0px auto;
+  width: 90%;
+  border-radius: 12px;
+  text-align: center;
+}
+.search-res:first-child {
+  margin-top: 20px;
+}
+.search-res:hover {
+  /* color: white; */
+  background-color: #f3f4f6;
+}
+
+@media (max-width: 600px) {
+  .search-box {
+    right: 0px;
+  }
+}

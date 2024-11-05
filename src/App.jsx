@@ -34,7 +34,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Header cart={cart} />
+        <Header cart={cart} products={featuredProducts} />
         <Routes>
           <Route
             path="/"
