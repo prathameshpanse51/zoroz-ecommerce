@@ -16,7 +16,7 @@ const Header = ({ cart, products }) => {
 
     if (val === "") {
       filtered.pop();
-      setFilteredProducts([]); // Clear the search results if input is empty
+      setFilteredProducts([]);
     }
   };
 

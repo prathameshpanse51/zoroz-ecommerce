@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-const ProductDetail = ({ addToCart }) => {
+const ProductDetail = ({ addToCart, removeFromCart, cart }) => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [inCart, setInCart] = useState(false);
 
   useEffect(() => {
     axios
@@ -24,8 +25,21 @@ const ProductDetail = ({ addToCart }) => {
       });
   }, [productId]);
 
-  const handleAddToCart = () => {
-    addToCart({ ...product, quantity });
+  useEffect(() => {
+    // Check if the product is already in the cart
+    const isProductInCart = cart.some(
+      (item) => item.id === parseInt(productId)
+    );
+    setInCart(isProductInCart);
+  }, [cart, productId]);
+
+  const handleToggleCart = () => {
+    if (inCart) {
+      removeFromCart(product.id);
+    } else {
+      addToCart({ ...product, quantity });
+    }
+    setInCart(!inCart);
   };
 
   if (loading) {
@@ -64,10 +78,12 @@ const ProductDetail = ({ addToCart }) => {
                 />
               </div>
               <button
-                onClick={handleAddToCart}
-                className="btn btn-warning p-2 px-8 mt-2 rounded font-bold"
+                onClick={handleToggleCart}
+                className={`btn ${
+                  inCart ? "btn-error" : "btn-warning"
+                } p-2 px-8 mt-2 rounded font-bold`}
               >
-                Add to Cart
+                {inCart ? "Delete from Cart" : "Add to Cart"}
               </button>
             </div>
           </div>

@@ -1,11 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-// Reusable ProductSection Component
 const ProductSection = ({ title, category, products }) => {
   const navigate = useNavigate();
 
-  // Function to navigate to category page
   const navigateToCategory = () => {
     navigate("/featuredproducts", { state: { category } });
   };
@@ -60,7 +58,6 @@ const ProductSection = ({ title, category, products }) => {
   );
 };
 
-// Homepage Component
 export default function Homepage({ products }) {
   return (
     <>

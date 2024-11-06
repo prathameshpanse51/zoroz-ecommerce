@@ -4,11 +4,10 @@ import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import FeaturedProducts from "./components/FeaturedProducts";
-import ProductListing from "./pages/ProductListing";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import PaymentStatus from "./pages/PaymentStatus"; // Import the PaymentStatus component
+import PaymentStatus from "./pages/PaymentStatus";
 import Homepage from "./components/Homepage";
 
 function App() {
@@ -16,7 +15,6 @@ function App() {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    // Fetching featured products from a mock API
     axios
       .get("https://fakestoreapi.com/products/")
       .then((response) => setFeaturedProducts(response.data))
@@ -27,6 +25,10 @@ function App() {
 
   const addToCart = (product) => {
     setCart([...cart, product]);
+  };
+
+  const removeFromCart = (productId) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
   console.log(cart);
@@ -53,15 +55,23 @@ function App() {
           />
           <Route
             path="/product/:productId"
-            element={<ProductDetail addToCart={addToCart} />}
+            element={
+              <ProductDetail
+                cart={cart}
+                addToCart={addToCart}
+                removeFromCart={removeFromCart}
+              />
+            }
           />
-          <Route path="/cart" element={<Cart cart={cart} />} />
+          <Route
+            path="/cart"
+            element={<Cart cart={cart} removeFromCart={removeFromCart} />}
+          />
           <Route
             path="/checkout"
             element={<Checkout cart={cart} setCart={setCart} />}
           />
           <Route path="/payment-status" element={<PaymentStatus />} />{" "}
-          {/* Add Payment Status route */}
         </Routes>
       </div>
     </Router>

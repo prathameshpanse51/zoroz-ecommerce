@@ -7,7 +7,6 @@ const ProductListing = ({ category }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    // Fetch products by category
     axios
       .get(`https://fakestoreapi.com/products/category/${category}`)
       .then((response) => setProducts(response.data))

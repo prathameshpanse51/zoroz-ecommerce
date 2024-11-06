@@ -11,10 +11,9 @@ const Checkout = ({ cart, setCart }) => {
 
   const handlePayment = () => {
     // Simulate a payment process (success or failure)
-    const paymentSuccess = Math.random() > 0.5; // Randomly determine success/failure
+    const paymentSuccess = Math.random() > 0.5;
     const paymentStatus = paymentSuccess ? "success" : "failed";
 
-    // Navigate to the PaymentStatus page with the status
     navigate("/payment-status", { state: { status: paymentStatus } });
     setCart([]);
   };
