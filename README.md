@@ -1,8 +1,34 @@
-# React + Vite
+# ScizersTechnologiesLLP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ ## Installation
+1. Clone the repository:
+    ```sh
+     https://github.com/prathameshpanse51/zoroz-ecommerce.git
+    ```
+2. Install dependencies:
+    ```sh
+      npm install
+    ```
+3. Run the project locally to see all features in action:
+    ```sh
+      npm run dev
+    ```
 
-Currently, two official plugins are available:
+ ## Demo Link
+ https://pkp-zoroz-ecommerce.netlify.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+  ## Demo Video 
+  
+https://github.com/user-attachments/assets/f12d6e3e-8cd1-40bb-b27e-1192cfd483c5
+
+
+
+
+
+
+
+
+
+
+
+
