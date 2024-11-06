@@ -1,45 +1,22 @@
-// components/Header.js
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Header = ({ cart, products }) => {
   const [search, setSearch] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const handleSearch = (val) => {
     setSearch(val);
-    const searchBox = document.getElementById("search-box");
-    searchBox.innerHTML = "";
 
-    const filtered = products.filter((e) => {
-      return e.title.toLowerCase().includes(val.toLowerCase());
-    });
+    const filtered = products.filter((e) =>
+      e.title.toLowerCase().includes(val.toLowerCase())
+    );
 
-    filtered.forEach((e) => {
-      const link = document.createElement("a");
-      link.href = `/product/${e.id}`;
-      link.className = "search-res";
-
-      const svgContainer = document.createElement("span");
-      svgContainer.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16">
-          <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
-        </svg>
-      `;
-
-      link.appendChild(svgContainer);
-      link.appendChild(document.createTextNode(` ${e.title}`));
-
-      searchBox.style.maxHeight = "300px";
-      searchBox.style.overflow = "scroll";
-      searchBox.appendChild(link);
-    });
-
-    if (filtered.length === 0) {
-      searchBox.innerHTML = "<p class='search-no'>No Product Found!</p>";
-    }
+    setFilteredProducts(filtered);
 
     if (val === "") {
-      searchBox.style.maxHeight = "0px";
+      filtered.pop();
+      setFilteredProducts([]); // Clear the search results if input is empty
     }
   };
 
@@ -47,6 +24,24 @@ const Header = ({ cart, products }) => {
     (acc, product) => acc + product.price * product.quantity,
     0
   );
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setFilteredProducts([]);
+          setSearch("");
+        }
+      }
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
 
   return (
     <>
@@ -127,7 +122,39 @@ const Header = ({ cart, products }) => {
           </div>
         </div>
       </div>
-      <div className="search-box" id="search-box"></div>
+
+      {/* Search Box */}
+      <div
+        ref={wrapperRef}
+        className="search-box"
+        id="search-box"
+        style={{
+          maxHeight: filteredProducts.length > 0 || search ? "300px" : "0px",
+          overflowY: "scroll",
+        }}
+      >
+        {filteredProducts.length > 0
+          ? filteredProducts.map((e) => (
+              <Link
+                key={e.id}
+                to={`/product/${e.id}`}
+                className="search-res flex items-center"
+              >
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16">
+                      <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+                    </svg>
+                  `,
+                  }}
+                  className="mr-2"
+                ></span>
+                {e.title}
+              </Link>
+            ))
+          : search && <p className="search-no">No Product Found!</p>}
+      </div>
     </>
   );
 };

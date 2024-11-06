@@ -38,15 +38,15 @@ const Checkout = ({ cart, setCart }) => {
                   className="flex justify-between items-center border-b py-2"
                 >
                   <div className="min-h-max">
-                    <div className="flex flex-col items-start lg:flex-row md:mx-24 w-[100%]">
+                    <div className="flex flex-col items-start lg:flex-row md:mx-24 md:w-[100%]">
                       <img
                         src={product.image}
                         alt={product.title}
                         className="rounded w-[80px] md:w-[100px] h-[100px] md:h-[200px] object-contain"
                       />
-                      <div className="mt-8 md:mt-0 md:ml-16 flex flex-row justify-between content-between w-[100%]">
+                      <div className="mt-8 md:mt-0 md:ml-16 flex flex-row justify-between content-between md:w-[100%]">
                         <div>
-                          <h1 className="md:text-xl font-semibold w-[500px]">
+                          <h1 className="md:text-xl font-semibold md:w-[500px]">
                             {product.title}
                           </h1>
                           <p className="mt-2 md:text-lg">

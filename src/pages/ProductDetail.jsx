@@ -15,6 +15,7 @@ const ProductDetail = ({ addToCart }) => {
       .then((response) => {
         setProduct(response.data);
         setLoading(false);
+        setQuantity(1);
       })
       .catch((error) => {
         console.error("Error fetching product details:", error);
@@ -43,7 +44,7 @@ const ProductDetail = ({ addToCart }) => {
             <img
               src={product.image}
               alt={product.title}
-              className="max-w-sm rounded shadow-2xl md:w-[1000px] h-[500px]"
+              className="rounded shadow-2xl md:w-[500px] md:h-[500px]"
             />
             <div className="mt-8 md:mt-0 md:ml-16">
               <h1 className="text-3xl md:text-5xl font-semibold">
@@ -57,7 +58,7 @@ const ProductDetail = ({ addToCart }) => {
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e) => setQuantity(Math.max(1, e.target.value))}
+                  onChange={(e) => setQuantity(e.target.value)}
                   className="w-16 text-center border rounded"
                   min="1"
                 />
